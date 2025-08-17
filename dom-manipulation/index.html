@@ -1,80 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dynamic Quote Generator</title>
-  <style>
-    body { font-family: system-ui, Arial, sans-serif; line-height: 1.55; padding: 16px; }
-    h1 { margin-bottom: 4px; }
-    .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
-    #quoteDisplay { margin: 12px 0; font-size: 18px; }
-    #status, #syncStatus { font-size: 13px; opacity: .8; }
-    .btn { padding: 8px 12px; cursor: pointer; }
-    input[type="text"], select { padding: 8px; min-width: 240px; }
-    .card { border: 1px solid #e6e6e6; border-radius: 12px; padding: 12px; margin: 10px 0; }
-    .conflict { background: #fff7e6; border: 1px solid #ffe3a3; }
-    .muted { opacity: .75; }
-    .pill { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid #ddd; }
-  </style>
-</head>
-<body>
-  <h1>Dynamic Quote Generator</h1>
-  <p id="status" class="muted">Ready.</p>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Quote Generator</title>
+  </head>
+  <body>
+    <h1>Dynamic Quote Generator</h1>
 
-  <!-- Filter -->
-  <div class="row">
-    <label for="categoryFilter">Filter by Category:</label>
+    <!-- Random Quote -->
+    <div id="quoteDisplay"></div>
+    <button onclick="showRandomQuote()">Show Random Quote</button>
+
+    <!-- Add Quote Form -->
+    <div id="addQuoteForm"></div>
+
+    <!-- Category Filter -->
     <select id="categoryFilter" onchange="filterQuotes()">
       <option value="all">All Categories</option>
-      <!-- Populated by JS -->
     </select>
-    <span class="pill" id="currentFilterPill">all</span>
-  </div>
 
-  <!-- Quote display -->
-  <div id="quoteDisplay" class="card">Click “Show New Quote”.</div>
-  <div class="row">
-    <button id="newQuote" class="btn">Show New Quote</button>
-  </div>
-
-  <!-- Add Quote -->
-  <h2>Add a New Quote</h2>
-  <div class="row">
-    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button class="btn" onclick="addQuote()">Add Quote</button>
-  </div>
-
-  <!-- Import / Export -->
-  <h2>Manage Quotes</h2>
-  <div class="row">
-    <button class="btn" onclick="exportToJsonFile()">Export Quotes (JSON)</button>
-    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
-  </div>
-
-  <!-- Server Sync -->
-  <h2>Server Sync (Simulated)</h2>
-  <div class="card">
-    <div class="row">
-      <button id="syncNowBtn" class="btn">Sync Now</button>
-      <label class="row" style="gap:6px;">
-        <input type="checkbox" id="autoSyncToggle" />
-        Auto-sync every 15s
-      </label>
-      <span id="syncStatus" class="muted">Not synced yet.</span>
+    <!-- Import / Export JSON -->
+    <div style="margin-top:10px;">
+      <button onclick="exportToJsonFile()">Export Quotes</button>
+      <input type="file" id="importFile" accept=".json"
+        onchange="importFromJsonFile(event)" />
     </div>
 
-    <!-- Conflict center -->
-    <div id="conflictCenter" class="card conflict" style="display:none;">
-      <strong>Conflicts resolved (server won):</strong>
-      <div id="conflictList" style="margin-top:8px;"></div>
-      <p class="muted" style="margin-top:8px;">
-        Tip: You can restore a local version if you prefer.
-      </p>
-    </div>
-  </div>
+    <!-- Sync Status Notification -->
+    <div id="syncStatus"
+      style="margin-top:10px; color:green; font-weight:bold;"></div>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
