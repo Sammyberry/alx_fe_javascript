@@ -178,3 +178,5 @@ function syncQuotes() {
   // (Optional) Could also post the latest local quotes if needed
   console.log("Sync process started...");
 }
+// Run syncQuotes every 30 seconds
+setInterval(syncQuotes, 30000);
