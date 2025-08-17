@@ -1,41 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dynamic Quote Generator</title>
-  <style>
-    body { font-family: system-ui, Arial, sans-serif; line-height: 1.5; padding: 1.25rem; }
-    #quoteDisplay p { font-size: 1.15rem; margin: 0.25rem 0; }
-    #quoteDisplay span { opacity: 0.75; }
-    .row { display: flex; gap: .5rem; flex-wrap: wrap; margin: .75rem 0; }
-    input[type="text"] { padding: .5rem; min-width: 240px; }
-    button { padding: .5rem .75rem; cursor: pointer; }
-    .muted { opacity: .7; font-size: .9rem; }
-  </style>
 </head>
 <body>
   <h1>Dynamic Quote Generator</h1>
 
-  <div id="quoteDisplay" class="muted">Click “Show New Quote” to begin.</div>
-  <div class="row">
-    <button id="newQuote">Show New Quote</button>
-  </div>
+  <!-- Random Quote -->
+  <div id="quoteDisplay"></div>
+  <button onclick="showRandomQuote()">Show Random Quote</button>
 
-  <!-- Static add-quote inputs (Step 3 from previous task) -->
-  <div class="row">
-    <input id="newQuoteText" type="text" placeholder="Enter a new quote" />
-    <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
-    <button onclick="addQuote()">Add Quote</button>
-  </div>
+  <!-- Add Quote Form -->
+  <div id="addQuoteForm"></div>
 
-  <!-- JSON Export / Import controls -->
-  <div class="row">
-    <button id="exportJsonBtn" onclick="exportToJsonFile()">Export Quotes (JSON)</button>
+  <!-- Category Filter -->
+  <select id="categoryFilter" onchange="filterQuotes()">
+    <option value="all">All Categories</option>
+  </select>
+
+  <!-- Import / Export JSON -->
+  <div style="margin-top:10px;">
+    <button onclick="exportToJsonFile()">Export Quotes</button>
     <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
   </div>
 
-  <p class="muted" id="status"></p>
+  <!-- Sync Status Notification -->
+  <div id="syncStatus" style="margin-top:10px; color:green; font-weight:bold;"></div>
 
   <script src="script.js"></script>
 </body>
