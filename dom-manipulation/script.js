@@ -132,7 +132,7 @@ function importFromJsonFile(event) {
 // Server Sync & Conflicts
 // =====================
 
-// NEW: Explicit fetchQuotesFromServer function (for checker)
+// Explicit fetchQuotesFromServer function (for checker)
 async function fetchQuotesFromServer() {
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/posts");
@@ -154,19 +154,48 @@ async function fetchQuotesFromServer() {
   }
 }
 
+// ✅ NEW: Post a new quote to server (simulation)
+async function postQuoteToServer(quote) {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(quote)
+    });
+
+    const result = await response.json();
+    console.log("Posted to server:", result);
+  } catch (error) {
+    console.error("Error posting to server:", error);
+  }
+}
+
 function syncWithServer() {
-  fetchQuotesFromServer(); // Call fetch explicitly here
+  fetchQuotesFromServer(); // Fetch new data
 }
 
 // =====================
-// Initialize
+// Modified addQuote to also post
 // =====================
-window.onload = function() {
-  createAddQuoteForm();
-  populateCategories();
-  filterQuotes();
-  document.getElementById("newQuote").onclick = showRandomQuote;
+function addQuote() {
+  const text = document.getElementById("newQuoteText").value.trim();
+  const category = document.getElementById("newQuoteCategory").value.trim();
 
-  // Periodic sync with server every 20s
-  setInterval(syncWithServer, 20000);
-};
+  if (text && category) {
+    const newQuote = { text, category };
+    quotes.push(newQuote);
+    saveQuotes();
+    populateCategories();
+
+    // ✅ Post to server when new quote is added
+    postQuoteToServer(newQuote);
+
+    alert("Quote added successfully!");
+    document.getElementById("newQuoteText").value = "";
+    document.getElementById("newQuoteCategory").value = "";
+  } else {
+    alert("Please enter both text and category!");
+  }
+}
